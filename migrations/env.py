@@ -7,7 +7,7 @@ from alembic import context
 
 from src.core.settings import settings
 from sqlmodel import SQLModel
-from src.model.vehicle import * # Substituir pelo arquivo central de models se tiver
+from src.domain.vehicle.model import Vehicle # Substituir pelo arquivo central de models se tiver
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
