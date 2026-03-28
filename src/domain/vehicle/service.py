@@ -1,12 +1,12 @@
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from sqlalchemy.exc import IntegrityError
 
 from src.core.exceptions import ConflictException, NotFoundException
-from src.model.dto.vehicle_dto import VehicleCreate, VehicleFilter, VehicleUpdate
-from src.model.vehicle import Vehicle
-from src.view.vehicle_repository import VehicleRepository
+from src.domain.vehicle.schemas import VehicleCreate, VehicleFilter, VehicleUpdate
+from src.domain.vehicle.model import Vehicle
+from src.domain.vehicle.repository import VehicleRepository
 
 
 class VehicleService:

@@ -3,8 +3,8 @@ from uuid import UUID
 
 from sqlmodel import Session, select
 
-from src.model.dto.vehicle_dto import VehicleFilter
-from src.model.vehicle import Vehicle
+from src.domain.vehicle.schemas import VehicleFilter
+from src.domain.vehicle.model import Vehicle
 
 
 class VehicleRepository:
