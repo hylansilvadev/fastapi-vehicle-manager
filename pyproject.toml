@@ -28,7 +28,7 @@ omit = [
     "src/**/__init__.py",         # Ignora todos os __init__.py
     "src/core/settings.py",       # Variaveis de ambiente geralmente não precisam
     "src/core/database.py",       # Configuração de banco (difícil de testar mockado puramente)
-    "src/model/dto/*",            # DTOs são apenas classes de contrato
+    "src/domain/*/schemas/*",     # DTOs sÃ£o apenas classes de contrato
     "src/core/exceptions.py",       # Exceções customizadas geralmente não possuem lógica complexa
 ]
 
@@ -72,3 +72,7 @@ select = [
     "B",  # flake8-bugbear
 ]
 ignore = []
+
+[tool.pytest.ini_options]
+addopts = "-p no:warnings"
+norecursedirs = [ ".git", ".venv", "migrations", "http-requests-bruno", "__pycache__", "htmlcov" ]

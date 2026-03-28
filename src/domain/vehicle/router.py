@@ -1,14 +1,14 @@
-from typing import List, Literal, Optional
+from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query, status
 from sqlmodel import Session
 
 from src.core.database import get_session
-from src.model.dto.vehicle_dto import VehicleCreate, VehicleFilter, VehicleUpdate
-from src.model.vehicle import Vehicle
-from src.view.vehicle_repository import VehicleRepository
-from src.view.vehicle_service import VehicleService
+from src.domain.vehicle.schemas import VehicleCreate, VehicleFilter, VehicleUpdate
+from src.domain.vehicle.model import Vehicle
+from src.domain.vehicle.repository import VehicleRepository
+from src.domain.vehicle.service import VehicleService
 
 router = APIRouter(prefix='/vehicles', tags=['Vehicles'])
 

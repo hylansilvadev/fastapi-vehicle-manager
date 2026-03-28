@@ -2,19 +2,25 @@ from fastapi.testclient import TestClient
 
 
 def test_create_vehicle(client: TestClient):
+    # Dado (Given)
+    payload = {
+        'marca': 'Toyota',
+        'modelo': 'Corolla',
+        'placa': 'ABC-1234',
+        'ano': '2022',
+        'cor': 'Prata',
+        'preco': '120000.0',
+        'proprietario': 'Joao Silva',
+        'km': '15000',
+    }
+
+    # Quando (When)
     response = client.post(
         '/vehicles/',
-        json={
-            'marca': 'Toyota',
-            'modelo': 'Corolla',
-            'placa': 'ABC-1234',
-            'ano': '2022',
-            'cor': 'Prata',
-            'preco': '120000.0',
-            'proprietario': 'Joao Silva',
-            'km': '15000',
-        },
+        json=payload,
     )
+
+    # Então (Then)
     assert response.status_code == 201
     data = response.json()
     assert data['marca'] == 'Toyota'
@@ -23,6 +29,7 @@ def test_create_vehicle(client: TestClient):
 
 
 def test_create_vehicle_duplicate_placa(client: TestClient):
+    # Dado (Given)
     payload = {
         'marca': 'Honda',
         'modelo': 'Civic',
@@ -37,13 +44,17 @@ def test_create_vehicle_duplicate_placa(client: TestClient):
     response1 = client.post('/vehicles/', json=payload)
     assert response1.status_code == 201
 
+    # Quando (When)
     # Tenta criar o segundo com a mesma placa
     response2 = client.post('/vehicles/', json=payload)
+
+    # Então (Then)
     # Deve retornar conflito (409)
     assert response2.status_code == 409
 
 
 def test_get_vehicles(client: TestClient):
+    # Dado (Given)
     # Cria alguns veículos
     client.post(
         '/vehicles/',
@@ -72,7 +83,10 @@ def test_get_vehicles(client: TestClient):
         },
     )
 
+    # Quando (When)
     response = client.get('/vehicles/')
+
+    # Então (Then)
     assert response.status_code == 200
     data = response.json()
 
@@ -83,6 +97,7 @@ def test_get_vehicles(client: TestClient):
 
 
 def test_get_vehicle_by_id(client: TestClient):
+    # Dado (Given)
     # Cria um veículo
     create_response = client.post(
         '/vehicles/',
@@ -99,21 +114,30 @@ def test_get_vehicle_by_id(client: TestClient):
     )
     vehicle_id = create_response.json()['id']
 
+    # Quando (When)
     # Busca por ID
     get_response = client.get(f'/vehicles/{vehicle_id}')
+
+    # Então (Then)
     assert get_response.status_code == 200
     assert get_response.json()['id'] == vehicle_id
 
 
 def test_get_vehicle_not_found(client: TestClient):
+    # Dado (Given)
     import uuid
 
     fake_id = str(uuid.uuid4())
+
+    # Quando (When)
     response = client.get(f'/vehicles/{fake_id}')
+
+    # Então (Then)
     assert response.status_code == 404
 
 
 def test_update_vehicle(client: TestClient):
+    # Dado (Given)
     # Cria um veículo
     create_response = client.post(
         '/vehicles/',
@@ -129,11 +153,13 @@ def test_update_vehicle(client: TestClient):
         },
     )
     vehicle_id = create_response.json()['id']
+    update_payload = {'cor': 'Preto', 'preco': '145000.0'}
 
+    # Quando (When)
     # Atualiza parcialmente (PATCH)
-    update_response = client.patch(
-        f'/vehicles/{vehicle_id}', json={'cor': 'Preto', 'preco': '145000.0'}
-    )
+    update_response = client.patch(f'/vehicles/{vehicle_id}', json=update_payload)
+
+    # Então (Then)
     assert update_response.status_code == 200
     data = update_response.json()
     assert data['cor'] == 'Preto'
@@ -141,6 +167,7 @@ def test_update_vehicle(client: TestClient):
 
 
 def test_delete_vehicle(client: TestClient):
+    # Dado (Given)
     # Cria um veículo
     create_response = client.post(
         '/vehicles/',
@@ -157,8 +184,11 @@ def test_delete_vehicle(client: TestClient):
     )
     vehicle_id = create_response.json()['id']
 
+    # Quando (When)
     # Deleta
     delete_response = client.delete(f'/vehicles/{vehicle_id}')
+
+    # Então (Then)
     assert delete_response.status_code == 204
 
     # Verifica se foi deletado mesmo
@@ -167,5 +197,11 @@ def test_delete_vehicle(client: TestClient):
 
 
 def test_get_vehicles_with_filters(client: TestClient):
-    response = client.get('/vehicles/?marca=Fiat&ano=2010&order_dir=asc')
+    # Dado (Given)
+    url_com_filtros = '/vehicles/?marca=Fiat&ano=2010&order_dir=asc'
+
+    # Quando (When)
+    response = client.get(url_com_filtros)
+
+    # Então (Then)
     assert response.status_code == 200

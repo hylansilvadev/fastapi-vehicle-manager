@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlmodel import Field, SQLModel
 
-from src.model._base import _Base
+from src.shared.model._base import _Base
 
 
 class VehicleBase(SQLModel):
