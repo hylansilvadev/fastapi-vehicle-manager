@@ -1,0 +1,74 @@
+[project]
+name = "crud-fastapi"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.14"
+dependencies = [
+    "alembic>=1.18.4",
+    "fastapi>=0.135.2",
+    "psycopg2-binary>=2.9.11",
+    "pydantic-settings>=2.13.1",
+    "sqlmodel>=0.0.37",
+    "uvicorn>=0.42.0",
+]
+
+[dependency-groups]
+dev = [
+    "blue>=0.9.1",
+    "faker>=40.11.1",
+    "httpx>=0.28.1",
+    "isort>=8.0.1",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.8",
+]
+
+[tool.coverage.run]
+omit = [
+    "src/**/__init__.py",         # Ignora todos os __init__.py
+    "src/core/settings.py",       # Variaveis de ambiente geralmente não precisam
+    "src/core/database.py",       # Configuração de banco (difícil de testar mockado puramente)
+    "src/model/dto/*",            # DTOs são apenas classes de contrato
+    "src/core/exceptions.py",       # Exceções customizadas geralmente não possuem lógica complexa
+]
+
+[tool.blue]
+line-length = 88
+exclude = '''
+/(
+    \.git
+  | \.pytest_cache
+  | \.ruff_cache
+  | \.venv
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+skip = ["__init__.py", ".venv", "migrations"]
+
+[tool.ruff]
+line-length = 88
+exclude = [
+    ".git",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "migrations",
+]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort (Opcional, mas util se quiser que o ruff também verifique os imports)
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = []

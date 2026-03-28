@@ -1,0 +1,180 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0
+rootdir: C:\Users\hylan\workspace\studies\fastapi-projects\crud-fastapi
+configfile: pyproject.toml
+plugins: anyio-4.13.0, Faker-40.11.1, cov-7.1.0
+collected 13 items
+
+tests\integration\test_vehicle_api.py .F.....                            [ 53%]
+tests\unit\test_vehicle_service.py ......                                [100%]
+
+================================== FAILURES ===================================
+_____________________ test_create_vehicle_duplicate_placa _____________________
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+E   sqlite3.IntegrityError: UNIQUE constraint failed: vehicle.placa
+
+The above exception was the direct cause of the following exception:
+tests\integration\test_vehicle_api.py:39: in test_create_vehicle_duplicate_placa
+    response2 = client.post("/vehicles/", json=payload)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\starlette\testclient.py:546: in post
+    return super().post(
+.venv\Lib\site-packages\httpx\_client.py:1144: in post
+    return self.request(
+.venv\Lib\site-packages\starlette\testclient.py:445: in request
+    return super().request(
+.venv\Lib\site-packages\httpx\_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+.venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+.venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\starlette\testclient.py:348: in handle_request
+    raise exc
+.venv\Lib\site-packages\starlette\testclient.py:345: in handle_request
+    portal.call(self.app, scope, receive, send)
+.venv\Lib\site-packages\anyio\from_thread.py:334: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\_base.py:450: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\_base.py:395: in __get_result
+    raise self._exception
+.venv\Lib\site-packages\anyio\from_thread.py:259: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\fastapi\applications.py:1159: in __call__
+    await super().__call__(scope, receive, send)
+.venv\Lib\site-packages\starlette\applications.py:90: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv\Lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+.venv\Lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+.venv\Lib\site-packages\starlette\middleware\exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+.venv\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv\Lib\site-packages\starlette\_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:660: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:680: in app
+    await route.handle(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:276: in handle
+    await self.app(scope, receive, send)
+.venv\Lib\site-packages\fastapi\routing.py:134: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+.venv\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv\Lib\site-packages\starlette\_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv\Lib\site-packages\fastapi\routing.py:120: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\fastapi\routing.py:674: in app
+    raw_response = await run_endpoint_function(
+.venv\Lib\site-packages\fastapi\routing.py:330: in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\starlette\concurrency.py:32: in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\anyio\to_thread.py:63: in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+.venv\Lib\site-packages\anyio\_backends\_asyncio.py:2518: in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+.venv\Lib\site-packages\anyio\_backends\_asyncio.py:1002: in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+src\controller\vehicle_controller.py:27: in create_vehicle
+    return service.create_vehicle(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\view\vehicle_service.py:22: in create_vehicle
+    raise e
+src\view\vehicle_service.py:16: in create_vehicle
+    return self.repository.create(vehicle)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\view\vehicle_repository.py:15: in create
+    self.session.commit()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+<string>:2: in commit
+    ???
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+<string>:2: in _prepare_impl
+    ???
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:121: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+E   sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: vehicle.placa
+E   [SQL: INSERT INTO vehicle (id, created_at, updated_at, marca, modelo, ano, placa, cor, preco, proprietario, km) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E   [parameters: ('7ca15faf9a6b42508c41dfa49021c538', '2026-03-28 10:42:05.428243', '2026-03-28 10:42:05.428255', 'Honda', 'Civic', '2021', 'XYZ-9876', 'Preto', '110000.0', 'Maria Souza', '30000')]
+E   (Background on this error at: https://sqlalche.me/e/20/gkpj)
+============================== warnings summary ===============================
+tests/integration/test_vehicle_api.py: 16 warnings
+tests/unit/test_vehicle_service.py: 4 warnings
+  C:\Users\hylan\workspace\studies\fastapi-projects\crud-fastapi\.venv\Lib\site-packages\sqlmodel\_compat.py:301: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    cls.__pydantic_validator__.validate_python(
+
+tests/unit/test_vehicle_service.py: 10 warnings
+  C:\Users\hylan\workspace\studies\fastapi-projects\crud-fastapi\.venv\Lib\site-packages\pydantic\fields.py:747: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return fac()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/integration/test_vehicle_api.py::test_create_vehicle_duplicate_placa
+================== 1 failed, 12 passed, 30 warnings in 1.82s ==================
